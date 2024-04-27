@@ -1,0 +1,81 @@
+let todo = JSON.parse(localStorage.getItem("todo")) || [];
+
+const getinput = document.querySelector(".input-feild");
+const addbtn = document.querySelector(".btn");
+const todolist = document.querySelector("#todolist");
+const deletebtn = document.querySelector(".delete ")
+let count = document.querySelector(".count");
+let temp = 0;
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+   addbtn.addEventListener("click", addtask);
+   getinput.addEventListener("keydown",(e)=>{
+    if(e.key === "Enter"){
+        e.preventDefault();
+        addtask();
+        
+       
+    }
+   })
+
+   deletebtn.addEventListener("click", deletes);
+})
+console.log(getinput.value)
+
+function addtask() {
+    const task = getinput.value.trim();
+   if(task !== ""){
+    todo.push({
+        value : task,
+        disabled : false,
+    })
+    temp = temp + 1;
+    count.innerHTML = `${temp}`
+   }
+    save();
+    getinput.value = "";
+    displaytask();
+}
+
+function save() {
+    localStorage.setItem("todo", JSON.stringify(todo))
+}
+
+function displaytask() {
+    todolist.innerHTML = "";
+    todo.forEach((elem , index) => {
+        const p = document.createElement("p");
+        p.innerHTML = ` <div class = "alpha">
+                <input type="checkbox" name="" id="abc">
+                 <p>${elem.value}</p>
+        </div>`
+    
+        todolist.appendChild(p);
+    });
+    save();
+    
+}
+function deletes() {
+    todo = [];
+    console.log("test");
+    displaytask();
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const todolist = document.getElementById("todolist"); // Assuming todolist is an element with id "todolist"
+    if (todolist) {
+        const paragraphs = todolist.querySelectorAll("p");
+        paragraphs.forEach((elem) => {
+            elem.addEventListener("click", () => {
+                elem.classList.toggle("able"); // Toggle the class "able"
+            });
+        });
+    }
+});
+
+
+displaytask();
+
